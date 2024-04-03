@@ -10,6 +10,7 @@ const ProductList = () => {
     const [open, setOpen] = useState(false);
     const [cartItems, setCartItems] = useState([]);
 
+    //fetching data from api
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -43,11 +44,12 @@ const ProductList = () => {
         setSelectedProduct(null);
     }
 
-    //cart
+    //cart showing or not showing
     const toggleCart = () => {
         setOpen(!open);
     }
 
+    //updates the quanitity in the cart
     const addToCart = (product, quantity) => {
         const existingItem = cartItems.find(item => item.product.id === product.id);
         if (existingItem) {
@@ -57,6 +59,7 @@ const ProductList = () => {
         }
     }
 
+    //updates the quanitity in the cart
     const increaseQuantity = (productId) => {
         setCartItems(prevCartItems => {
             return prevCartItems.map(item => {
@@ -68,6 +71,7 @@ const ProductList = () => {
         })
     };
 
+    //updates the quanitity in the cart
     const decreaseQuantity = (productId) => {
         setCartItems(prevCartItems => {
             return prevCartItems.map(item => {
@@ -79,12 +83,12 @@ const ProductList = () => {
         });
     };
 
+    //removes the whole thing from the cart
     const removeFromCart = (productId) => {
         setCartItems(prevCartItems => {
             return prevCartItems.filter(item => item.product.id !== productId)
         })
     };
-
 
     return (
         <div className="productBox">
@@ -116,7 +120,6 @@ const ProductList = () => {
             </div>
             {selectedProduct && <ProductDetail product={selectedProduct} onClose={closeDetail} addToCart={addToCart} />}
         </div>
-
     )
 }
 
