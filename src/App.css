@@ -11,7 +11,7 @@ body {
 
 .title {
   margin: 1%;
-  font-size: 50px;
+  font-size: 45px;
   text-shadow: 3px 3px 5px orange;
   /* position: relative; */
 }
@@ -52,7 +52,7 @@ body {
 
 .searchBar {
   margin: 5px;
-  min-width: 95%;
+  min-width: 97%;
   height: 50px;
   padding-left: 15px;
   font-size: 30px;
@@ -92,11 +92,11 @@ button {
   height: 50px;
   background: orange;
   position:fixed;
-  left: 95%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
+  left: 0.1%;
   border-radius: 50%;
 }
 
@@ -111,13 +111,30 @@ button {
 }
 
 .cartList{
-  border: 2px solid orange;
+  border: 10px solid orange;
   background-color: black;
   color: white;
-  width: 250px;
+  width: auto;
   height: auto;
   position: fixed;
-  left: 80%;
-  top: 16%;
+  left: 10%;
+  top: 25%;
+  z-index: 999;
+
+}
+
+.cartList *{
+  margin: 5px;
+}
+
+.listItem{
+  display: flex;
+  flex-direction: row;
+}
+
+.listItemImg{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 

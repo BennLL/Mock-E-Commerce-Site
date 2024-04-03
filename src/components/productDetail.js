@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ProductDetail = ({ product, onClose }) => {
+const ProductDetail = ({ product, onClose, addToCart }) => {
     const [amount, setAmount] = useState(1);
 
     const increment = () => {
@@ -10,10 +10,14 @@ const ProductDetail = ({ product, onClose }) => {
     }
 
     const decrement = () => {
-        if (amount > 1) { 
-            setAmount(prevAmount => prevAmount - 1); 
+        if (amount > 1) {
+            setAmount(prevAmount => prevAmount - 1);
         }
 
+    }
+
+    const handleAddToCart = () => {
+        addToCart(product, amount)
     }
 
     return (
@@ -31,7 +35,7 @@ const ProductDetail = ({ product, onClose }) => {
                     <button onClick={decrement}>-</button>
                     <span>{amount}</span>
                     <button onClick={increment}>+</button>
-                    <button>Add to Cart</button>
+                    <button onClick={handleAddToCart}>Add to Cart</button>
                 </div>
             </div>
             <button className="close" onClick={onClose}>Close</button>

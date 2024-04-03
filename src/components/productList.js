@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProducts } from './apiService';
 import ProductDetail from './productDetail';
+import ShoppingCart from './shoppingCart';
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedProduct, setSelectedProduct] = useState('');
+    const [open, setOpen] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,8 +39,59 @@ const ProductList = () => {
         setSelectedProduct(null);
     }
 
+    //cart
+    const toggleCart = () => {
+        setOpen(!open);
+    }
+
+    const addToCart = (product, quantity) => {
+        const existingItem = cartItems.find(item => item.product.id === product.id);
+        if (existingItem) {
+            setCartItems(prevItems => prevItems.map(item => item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item));
+        } else {
+            setCartItems(prevItems => [...prevItems, { product, quantity }]);
+        }
+    }
+
+    const increaseQuantity = (productId) => {
+        setCartItems(prevCartItems => {
+            return prevCartItems.map(item => {
+                if (item.product.id === productId && item.quantity < item.product.stock) {
+                    return { ...item, quantity: item.quantity + 1 };
+                }
+                return item;
+            })
+        })
+    };
+
+    const decreaseQuantity = (productId) => {
+        setCartItems(prevCartItems => {
+            return prevCartItems.map(item => {
+                if (item.product.id === productId && item.quantity > 1) {
+                    return { ...item, quantity: item.quantity - 1 };
+                }
+                return item;
+            });
+        });
+    };
+
+    const removeFromCart = (productId) => {
+        setCartItems(prevCartItems => {
+            return prevCartItems.filter(item => item.product.id !== productId)
+        })
+    };
+
+
     return (
-        <div classname="productBox">
+        <div className="productBox">
+            <div className="cartIcon">
+                <img src='https://static.vecteezy.com/system/resources/previews/019/787/018/original/shopping-cart-icon-shopping-basket-on-transparent-background-free-png.png' onClick={toggleCart}></img>
+                {open && <ShoppingCart cartItems={cartItems}
+                    increaseQuantity={increaseQuantity}
+                    decreaseQuantity={decreaseQuantity}
+                    removeFromCart={removeFromCart}
+                />}
+            </div>
             <input
                 className="searchBar" placeholder='⌕ Search up an item' type='text'
                 value={searchQuery}
@@ -56,7 +110,7 @@ const ProductList = () => {
                     </div>
                 ))}
             </div>
-            {selectedProduct && <ProductDetail product={selectedProduct} onClose={closeDetail} />}
+            {selectedProduct && <ProductDetail product={selectedProduct} onClose={closeDetail} addToCart={addToCart} />}
         </div>
 
     )
