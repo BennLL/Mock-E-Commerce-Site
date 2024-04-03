@@ -24,7 +24,11 @@ const ProductList = () => {
     }, []);
 
     //filter function
-    const filteredProducts = products.filter(product => product.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredProducts = products.filter(product => {
+        const titleMatch = product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        const categoryMatch = product.category.toLowerCase().includes(searchQuery.toLowerCase());
+        return titleMatch || categoryMatch;
+    });
 
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
